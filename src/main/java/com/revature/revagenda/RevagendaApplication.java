@@ -2,12 +2,15 @@ package com.revature.revagenda;
 
 import com.revature.revagenda.entities.Task;
 import com.revature.revagenda.entities.User;
+import com.revature.revagenda.repositories.UserRepository;
 import com.revature.revagenda.utilities.StorageManager;
 import com.revature.revagenda.utilities.TransactionManager;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.List;
 
 @SpringBootApplication
 public class RevagendaApplication {
@@ -37,25 +40,38 @@ public class RevagendaApplication {
 		changes, and commit it.
 		 */
 		Transaction tx = transactionManager.beginTransaction();
-		Task oilChange = new Task("oilchange", "Get your oil changed.");
-		Task carInspection = new Task("inspection", "Get your car inspected.");
-		User newUser = new User("kplummer", "password", "Kyle", "Plummer");
-		oilChange.setUser(newUser);
-		carInspection.setUser(newUser);
-		//newUser.addTask(oilChange);
-		//newUser.addTask(carInspection);
-		session.save(newUser);
-		session.save(oilChange);
-		session.save(carInspection);
-		Task newTask = new Task("Refactor Revagenda", "re-write revagenda to add in hibernate.");
-		session.save(newTask);
+		User kyle = new User("kplummer", "password", "Kyle", "Plummer");
+		User giorgi = new User("gamirajibi", "password", "Giorgi", "Amirajibi");
+		User kenneth = new User("kstrohm", "password", "Kenneth", "Strohm");
+
+
+		kyle.addTask(new Task(kyle, "oilchange", "Get your oil changed."));
+		kyle.addTask(new Task(kyle, "inspection", "Get your car inspected."));
+
+		session.save(kyle);
+		session.save(giorgi);
+		session.save(kenneth);
+
+
 		transactionManager.commitTransaction(tx);//unnecessary over-engineering?
 
+		Task newTask = new Task(kyle,"Refactor Revagenda", "re-write revagenda to add in hibernate.");
+
+
+
+
 		tx = transactionManager.beginTransaction();
-		//newUser.addTask(newTask);
-		newTask.setUser(newUser);
-//		session.save(newUser);
+		kyle.addTask(newTask);
+
+		UserRepository userRepository = new UserRepository(session);
+		List<User> users = userRepository.getAll();
+
 		transactionManager.commitTransaction(tx);
+
+		for (User u : users) {
+			System.out.println("Username: " + u.getUsername());
+
+		}
 	}
 
 }

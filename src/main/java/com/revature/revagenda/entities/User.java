@@ -11,7 +11,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column
+    @Column(unique = true)
     private String username;
 
     @Column
@@ -23,15 +23,15 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
-//    @Column
-//    @OneToMany
-//    private List<Task> tasks;
+    @Column
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Task> tasks;
 
     public User() {
     }
 
     public User(String username, String password, String firstName, String lastName) {
-        //this.tasks = new LinkedList<>();
+        this.tasks = new LinkedList<>();
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -78,20 +78,20 @@ public class User {
         this.lastName = lastName;
     }
 
-//    public void addTask(Task task) {
-//        this.tasks.add(task);
-//    }
-//
-//    public void removeTask(Task task) {
-//        this.tasks.remove(task);
-//    }
-//
-//    public Task getTaskByName(String name) {
-//        for (Task t : tasks) {
-//            if(t.getName().equals(name)) {
-//                return t;
-//            }
-//        }
-//        return null;
-//    }
+    public void addTask(Task task) {
+        this.tasks.add(task);
+    }
+
+    public void removeTask(Task task) {
+        this.tasks.remove(task);
+    }
+
+    public Task getTaskByName(String name) {
+        for (Task t : tasks) {
+            if(t.getName().equals(name)) {
+                return t;
+            }
+        }
+        return null;
+    }
 }

@@ -15,13 +15,19 @@ public class Task {
     @Column
     private String description;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     public Task() {
     }
 
     public Task(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    public Task(User user, String name, String description) {
+        this.user = user;
         this.name = name;
         this.description = description;
     }
