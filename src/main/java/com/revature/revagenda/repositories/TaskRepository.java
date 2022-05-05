@@ -4,6 +4,7 @@ import com.revature.revagenda.entities.Task;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class TaskRepository implements HibernateRepository<Task>{
@@ -22,11 +23,16 @@ public class TaskRepository implements HibernateRepository<Task>{
 
     @Override
     public List<Task> getAll() {
-        return null;
+        String hql = "FROM Task";
+        TypedQuery<Task> query = session.createQuery(hql);
+        return query.getResultList();
     }
 
     @Override
     public Task getById(Integer id) {
-        return null;
+        String hql = "FROM Task WHERE id = :id";
+        TypedQuery<Task> query = session.createQuery(hql);
+        query.setParameter("id", id);
+        return query.getSingleResult();
     }
 }

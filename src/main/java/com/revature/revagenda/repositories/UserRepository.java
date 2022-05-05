@@ -6,8 +6,14 @@ import org.hibernate.Transaction;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.LinkedList;
 import java.util.List;
+
+import static antlr.build.ANTLR.root;
 
 public class UserRepository implements HibernateRepository<User>{
     private Session session;
@@ -47,10 +53,24 @@ public class UserRepository implements HibernateRepository<User>{
 
     @Override
     public User getById(Integer id) {
-        return null;
+        String hql = "FROM User WHERE id = :id";
+        TypedQuery<User> query = session.createQuery(hql, User.class);
+
+        query.setParameter("id", id);
+
+        User user = query.getSingleResult();
+
+        return user;
     }
 
     public User getByUsername(String username) {
-        return null;
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<User> query = criteriaBuilder.createQuery(User.class);
+
+        Root<User> userTable = query.from(User.class);
+        query.select(userTable)
+                .where(criteriaBuilder.equal(userTable.get("username"), username));
+
+        return session.createQuery(query).getSingleResult();
     }
 }
