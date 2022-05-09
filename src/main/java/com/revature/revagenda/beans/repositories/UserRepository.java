@@ -1,10 +1,13 @@
-package com.revature.revagenda.repositories;
+package com.revature.revagenda.beans.repositories;
 
+import com.revature.revagenda.beans.services.StorageManager;
 import com.revature.revagenda.entities.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.Lifecycle;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -13,14 +16,16 @@ import javax.persistence.criteria.Root;
 import java.util.LinkedList;
 import java.util.List;
 
-import static antlr.build.ANTLR.root;
-
-public class UserRepository implements HibernateRepository<User>{
+@Component
+public class UserRepository implements HibernateRepository<User>, Lifecycle {
+    private final StorageManager storageManager;
+    private boolean running = false;
     private Session session;
     String tableName;
 
-    public UserRepository(Session session) {
-        this.session = session;
+    @Autowired
+    public UserRepository(StorageManager storageManager) {
+        this.storageManager = storageManager;
         this.tableName = "users";
     }
 
@@ -72,5 +77,21 @@ public class UserRepository implements HibernateRepository<User>{
                 .where(criteriaBuilder.equal(userTable.get("username"), username));
 
         return session.createQuery(query).getSingleResult();
+    }
+
+    @Override
+    public void start() {
+        this.session = storageManager.getSession();
+        running = true;
+    }
+
+    @Override
+    public void stop() {
+        running = false;
+    }
+
+    @Override
+    public boolean isRunning() {
+        return running;
     }
 }

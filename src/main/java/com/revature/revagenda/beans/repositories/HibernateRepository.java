@@ -1,4 +1,4 @@
-package com.revature.revagenda.repositories;
+package com.revature.revagenda.beans.repositories;
 
 import org.hibernate.Session;
 
