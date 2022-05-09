@@ -6,8 +6,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.Lifecycle;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -16,17 +16,18 @@ import javax.persistence.criteria.Root;
 import java.util.LinkedList;
 import java.util.List;
 
-@Component
-public class UserRepository implements HibernateRepository<User>, Lifecycle {
+
+@Repository //These are repository beans, but this is just a marker. This doesn't actually change the behavior of this class.
+public class UserRepository implements HibernateRepository<User> {
     private final StorageManager storageManager;
     private boolean running = false;
     private Session session;
-    String tableName;
+    private String tableName;
 
     @Autowired
     public UserRepository(StorageManager storageManager) {
         this.storageManager = storageManager;
-        this.tableName = "users";
+        //this.tableName = "users";
     }
 
     @Override
@@ -93,5 +94,14 @@ public class UserRepository implements HibernateRepository<User>, Lifecycle {
     @Override
     public boolean isRunning() {
         return running;
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    @Value("users")
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
     }
 }

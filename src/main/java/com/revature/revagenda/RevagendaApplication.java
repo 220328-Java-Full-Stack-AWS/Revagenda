@@ -38,7 +38,7 @@ public class RevagendaApplication {
 		Here we begin doing DML and inserting (saving) stuff into the database. We begin the transaction, make the
 		changes, and commit it.
 		 */
-		Transaction tx = session.beginTransaction();
+		//Transaction tx = session.beginTransaction(); //moved the transaction statements into the save() method.
 
 		User kyle = new User("kplummer", "password", "Kyle", "Plummer");
 		User giorgi = new User("gamirajibi", "password", "Giorgi", "Amirajibi");
@@ -51,14 +51,14 @@ public class RevagendaApplication {
 		session.save(giorgi);
 		session.save(kenneth);
 
-		tx.commit();
+		//tx.commit(); //moved the transaction statements into the save() method.
 
 
 
-		tx = session.beginTransaction();
+		Transaction tx = session.beginTransaction(); //This transaction is necessary to force a flush of the cache
 		Task newTask = new Task(kyle,"Refactor Revagenda", "re-write revagenda to add in hibernate.");
 		kyle.addTask(newTask);
-		tx.commit();
+		tx.commit();  //notice nowhere here are we calling save(). kyle is already persistent, and we just need to make sure the cache flushes.
 
 
 
@@ -95,6 +95,8 @@ public class RevagendaApplication {
 
 		Task task2 = taskRepository.getById(2);
 		System.out.println("Task 2: " + task2.getDescription());
+
+
 
 
 	}

@@ -1,6 +1,5 @@
 package com.revature.revagenda.beans.services;
 
-import com.revature.revagenda.beans.repositories.HibernateRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;

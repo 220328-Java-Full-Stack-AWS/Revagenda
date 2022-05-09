@@ -5,14 +5,13 @@ import com.revature.revagenda.entities.Task;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.Lifecycle;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-@Component //Note: @Component not @Repository, we are currently working with Hibernate directly and don't actually want JPA Repository beans
-public class TaskRepository implements HibernateRepository<Task>, Lifecycle {
+@Repository //These are repository beans, but this is just a marker. This doesn't actually change the behavior of this class.
+public class TaskRepository implements HibernateRepository<Task> {
     private final StorageManager storageManager;
     private Session session;
     private boolean running = false;
