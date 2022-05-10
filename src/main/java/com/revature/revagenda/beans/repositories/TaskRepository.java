@@ -23,10 +23,11 @@ public class TaskRepository implements HibernateRepository<Task> {
     }
 
     @Override
-    public void save(Task task) {
+    public Task save(Task task) {
         Transaction tx = session.beginTransaction();
         session.save(task);
         tx.commit();
+        return task;
     }
 
     @Override

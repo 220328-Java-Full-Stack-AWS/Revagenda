@@ -1,11 +1,14 @@
 package com.revature.revagenda.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.LinkedList;
 import java.util.List;
 
 @Entity
 @Table(name = "users", schema = "public")
+@JsonIgnoreProperties
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

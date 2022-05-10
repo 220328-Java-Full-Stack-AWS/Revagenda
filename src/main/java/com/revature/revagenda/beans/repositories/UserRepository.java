@@ -31,10 +31,11 @@ public class UserRepository implements HibernateRepository<User> {
     }
 
     @Override
-    public void save(User user) {
+    public User save(User user) {
         Transaction tx = session.beginTransaction();
-        session.save(user);
+        session.saveOrUpdate(user);
         tx.commit();
+        return user;
     }
 
     @Override
@@ -80,18 +81,15 @@ public class UserRepository implements HibernateRepository<User> {
         return session.createQuery(query).getSingleResult();
     }
 
-    @Override
     public void start() {
         this.session = storageManager.getSession();
         running = true;
     }
 
-    @Override
     public void stop() {
         running = false;
     }
 
-    @Override
     public boolean isRunning() {
         return running;
     }
