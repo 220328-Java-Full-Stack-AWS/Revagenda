@@ -60,9 +60,7 @@ public class UserController {
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public User updateUser(@RequestBody User user) {
-        //TODO: THIS IS BAD! Doesn't work. Cause: updating an already persistent object.
-        //Need to refactor either save() repo method or create a new one to handle updating a persistent object.
-        return userService.save(user);
+        return userService.update(user);
     }
 
 

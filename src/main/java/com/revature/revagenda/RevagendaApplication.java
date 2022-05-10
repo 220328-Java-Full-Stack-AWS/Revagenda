@@ -1,17 +1,12 @@
 package com.revature.revagenda;
 
+import com.revature.revagenda.beans.repositories.UserRepository;
 import com.revature.revagenda.entities.Task;
 import com.revature.revagenda.entities.User;
-import com.revature.revagenda.beans.repositories.TaskRepository;
-import com.revature.revagenda.beans.repositories.UserRepository;
 import com.revature.revagenda.beans.services.StorageManager;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-
-import java.util.List;
 
 @SpringBootApplication(scanBasePackages = "com.revature.revagenda.beans")
 public class RevagendaApplication {
@@ -28,6 +23,11 @@ public class RevagendaApplication {
 		storageManager.addEntity(User.class);
 
 		context.start(); //send the start signal to all lifecycle hooks - it gets to our storage manager and repository beans
+
+
+
+
+
 //		Session session = storageManager.getSession(); //once the start signal is sent and the lifecycle hooks are invoked, our sessions are valid
 //
 //		//Get references to our repository beans. Keep in mind these aren't JPA repositories.

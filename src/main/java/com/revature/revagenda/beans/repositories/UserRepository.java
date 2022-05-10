@@ -13,8 +13,10 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.persistence.metamodel.EntityType;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 
 @Repository //These are repository beans, but this is just a marker. This doesn't actually change the behavior of this class.
@@ -33,9 +35,20 @@ public class UserRepository implements HibernateRepository<User> {
     @Override
     public User save(User user) {
         Transaction tx = session.beginTransaction();
-        session.saveOrUpdate(user);
+        session.save(user);
         tx.commit();
         return user;
+    }
+
+    @Override
+    public User update(User user) {
+        User updateUser = this.getById(user.getId());
+        updateUser.setFirstName(user.getFirstName());
+        updateUser.setLastName(user.getLastName());
+        updateUser.setPassword(user.getPassword());
+        this.save(updateUser);
+        return user;
+        //TODO: Find a better way to do this
     }
 
     @Override

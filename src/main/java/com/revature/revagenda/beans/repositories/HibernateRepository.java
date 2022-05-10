@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface HibernateRepository<T> extends Lifecycle {
     public T save(T t);
+    public T update(T t);
     public List<T> getAll();
     public T getById(Integer id);
 
