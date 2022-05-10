@@ -71,6 +71,17 @@ public class UserRepository implements HibernateRepository<User> {
         return userList;
     }
 
+    /*
+        String sql = "SELECT * FROM table WHERE id = ?";
+        PreparedStatement pstmt = query.prepareStatement(sql);
+        pstmt.setInteger(1, 22345);
+
+
+        String hql = "FROM table WHERE id = :id";
+        TypedQuery<Table> query = session.createQuery(hql, Table.class);
+        query.setParameter("id", 22345);
+     */
+
     @Override
     public User getById(Integer id) {
         String hql = "FROM User WHERE id = :id";

@@ -1,0 +1,24 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto8
+  pre_build:
+    commands:
+#      - pwd
+#      - ls -al
+      - aws s3 cp s3://revagenda/hibernate.properties src/main/resources/hibernate.properties
+      - aws s3 cp s3://revagenda/application.properties src/main/resources/application.properties
+#      - ls -al
+#      - ls -al src/main/resources/
+  build:
+    commands:
+      - mvn package -DskipTests
+  post_build:
+    commands:
+      - mv target/revagenda-*.*.war revagenda.war
+artifacts:
+  files:
+    - revagenda.war
+    - .ebextensions/**/*
