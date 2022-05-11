@@ -20,4 +20,10 @@ public class HealthController {
         return "pong!";
     }
 
+    @RequestMapping(value = "/pong", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public String pong() {
+        return "ping!";
+    }
+
 }
