@@ -11,19 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@RequestMapping("/health")
 public class HealthController {
 
-    @RequestMapping(value = "/ping", method = RequestMethod.GET)
+    @RequestMapping(value = "/health", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public String ping() {
         return "pong!";
     }
-
-    @RequestMapping(value = "/pong", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    public String pong() {
-        return "ping!";
-    }
-
 }
