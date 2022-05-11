@@ -1,6 +1,5 @@
 package com.revature.revagenda;
 
-import com.revature.revagenda.beans.repositories.UserRepository;
 import com.revature.revagenda.entities.Task;
 import com.revature.revagenda.entities.User;
 import com.revature.revagenda.beans.services.StorageManager;
